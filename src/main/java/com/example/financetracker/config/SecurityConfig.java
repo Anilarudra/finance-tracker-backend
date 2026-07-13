@@ -75,7 +75,7 @@ public class SecurityConfig {
 
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of("http://localhost:5173","https://finance-tracker-frontend-murex-one.vercel.app")
         );
 
 

@@ -18,7 +18,10 @@ import com.example.financetracker.dto.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins="http://localhost:5173")
+@CrossOrigin(origins={
+	    "http://localhost:5173",
+	    "https://finance-tracker-frontend-murex-one.vercel.app"
+	})
 public class LoginController {
 
 	@Autowired

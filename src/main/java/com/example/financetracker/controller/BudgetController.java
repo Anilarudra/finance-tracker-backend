@@ -17,6 +17,7 @@ import com.example.financetracker.service.BudgetsService;
 
 @RestController
 @RequestMapping("/api/budgets")
+
 public class BudgetController {
 	
 	@Autowired
