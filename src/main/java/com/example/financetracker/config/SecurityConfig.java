@@ -1,5 +1,6 @@
 package com.example.financetracker.config;
 
+import com.example.financetracker.jwt.JwtFilter;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.example.security.jwt.JwtFilter;
+
 
 @Configuration
 public class SecurityConfig {
