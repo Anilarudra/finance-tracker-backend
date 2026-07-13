@@ -1,0 +1,49 @@
+package com.example.financetracker.jwt;
+
+import java.io.IOException;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+
+public class JwtFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String authHeader=request.getHeader("Authorization");
+
+        if(authHeader!=null && authHeader.startsWith("Bearer ")){
+
+            String token=authHeader.substring(7);
+
+            if(JwtUtil.validateToken(token)){
+
+                String username=JwtUtil.extractUsername(token);
+
+                UsernamePasswordAuthenticationToken authentication=
+                        new UsernamePasswordAuthenticationToken(
+                                username,
+                                null,
+                                java.util.Collections.emptyList());
+
+                authentication.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request));
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
+            }
+        }
+
+        filterChain.doFilter(request,response);
+    }
+
+}
