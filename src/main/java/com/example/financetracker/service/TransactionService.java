@@ -46,6 +46,13 @@ public class TransactionService {
 
 	    transaction.setUser(user);
 	    transaction.setAccount(account);
+	    
+	    if(transaction.getType().equalsIgnoreCase("expense")) {
+	    	account.setBalance(account.getBalance() - transaction.getAmount());
+	    } else if(transaction.getType().equalsIgnoreCase("income")) {
+	    	account.setBalance(account.getBalance() + transaction.getAmount());
+	    }
+	    accRepo.save(account);
 	    tRepo.save(transaction);
 		
 		System.out.println("Transaction added successfully"); 
