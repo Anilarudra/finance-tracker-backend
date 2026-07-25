@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import jakarta.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -38,7 +38,19 @@ public class Transactions {
 	 @JoinColumn(name="account_id", referencedColumnName = "id")
 	 @JsonIgnoreProperties({"transactions","user"})
 	 private Accounts account;
+	 
+	 
+	 @Transient
+	 private String accountType;
 
+	 public String getAccountType() {
+	     return accountType;
+	 }
+
+	 public void setAccountType() {
+	     this.accountType = account != null ? account.getStatus().name() : null;
+	 }
+	 
 	 public Long getId() {
 		 return id;
 	 }
@@ -113,6 +125,7 @@ public class Transactions {
 		this.date = date;
 		this.user = user;
 		this.account = account;
+		this.accountType = account != null ? account.getStatus().name() : null;
 	 }
 
 	 public Transactions() {

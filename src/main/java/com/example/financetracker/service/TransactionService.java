@@ -38,11 +38,18 @@ public class TransactionService {
 		Users user = uRepo.findById(userId)
 	            .orElseThrow(() -> new RuntimeException("User not found"));
 		
-		List<Accounts> accounts = accRepo.findByUserUserid(userId);
-		if (accounts.isEmpty()) {
-		    throw new RuntimeException("Account not found");
+
+		Accounts account = null ;
+		if(transaction.getAccountType() == null || transaction.getAccountType().isEmpty()) {
+			throw new RuntimeException("Account type is required");
+		}else {
+			
+			 if(transaction.getAccountType().equalsIgnoreCase("primary")) {
+				 account = accRepo.findByUserUseridAndStatus(userId, com.example.financetracker.enums.AccountStatus.PRIMARY);
+			 } else if(transaction.getAccountType().equalsIgnoreCase("secondary")) {
+				 account = accRepo.findByUserUseridAndStatus(userId, com.example.financetracker.enums.AccountStatus.SECONDARY);
+			 }
 		}
-		Accounts account = accounts.get(0);
 
 	    transaction.setUser(user);
 	    transaction.setAccount(account);

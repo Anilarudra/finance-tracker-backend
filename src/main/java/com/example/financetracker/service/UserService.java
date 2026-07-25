@@ -46,12 +46,12 @@ public class UserService {
 
 	public Accounts addAccount(Long userId, Accounts account) {
 
-	    System.out.println("Step 1");
+	    
 
 	    Users user = userRepository.findById(userId)
 	            .orElseThrow(() -> new RuntimeException("User not found"));
 
-	    System.out.println("Step 2");
+	    
 
 	    Accounts existing = accountsRepository.findByAccountNumber(account.getAccountNumber());
 
@@ -59,7 +59,7 @@ public class UserService {
 	        throw new RuntimeException("Account already exists");
 	    }
 
-	    System.out.println("Step 3");
+	   
 
 	    List<Accounts> accounts = accountsRepository.findByUserUserid(userId);
 
@@ -71,11 +71,10 @@ public class UserService {
 
 	    account.setUser(user);
 
-	    System.out.println("Before Save");
 
 	    Accounts saved = accountsRepository.save(account);
 
-	    System.out.println("After Save");
+	 
 
 	    return saved;
 	}
@@ -89,10 +88,25 @@ public class UserService {
 
 	    if (!accounts.isEmpty()) {
 	        return accounts;
-	    }else {
-	        System.out.println("No accounts found for user with ID: " + userId);
 	    }
 		return null;
+	}
+
+	public void deleteAccount(Long userId, Long accountId) {
+		// TODO Auto-generated method stub
+		
+		Users user = userRepository.findById(userId)
+	            .orElseThrow(() -> new RuntimeException("User not found"));
+
+	    Accounts account = accountsRepository.findById(accountId)
+	            .orElseThrow(() -> new RuntimeException("Account not found"));
+
+	    if (!account.getUser().getUserid().equals(userId)) {
+	        throw new RuntimeException("Account does not belong to the user");
+	    }
+
+	    accountsRepository.delete(account);
+		
 	}
 	
 

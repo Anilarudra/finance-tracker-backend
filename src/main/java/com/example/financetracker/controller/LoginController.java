@@ -70,9 +70,11 @@ public class LoginController {
 	    }
 
 
-	    return ResponseEntity
-	            .status(HttpStatus.UNAUTHORIZED)
-	            .body("Invalid Credentials");
+	    Map<String, String> error = new HashMap<>();
+	    error.put("message", "Invalid Credentials");
+
+	    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	            .body(error);
 	}
 
 }
