@@ -124,6 +124,7 @@ public class TransactionService {
 	                    t.getCategory() + "," +
 	                    t.getNote() + "," +
 	                    t.getAmount() + "," +
+	                    t.getAccountType() + "," +
 	                    sdf.format(t.getDate())
 	            );
 	        }

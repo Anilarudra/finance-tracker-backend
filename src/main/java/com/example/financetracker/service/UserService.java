@@ -13,6 +13,8 @@ import com.example.financetracker.model.Users;
 import com.example.financetracker.repository.AccountsRepository;
 import com.example.financetracker.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 
 
 @Service
@@ -106,6 +108,30 @@ public class UserService {
 	    }
 
 	    accountsRepository.delete(account);
+		
+	}
+
+    @Transactional
+	public void changePassword(Long userId, String currentPassword, String newPassword) {
+		// TODO Auto-generated method stub
+		 
+
+		    Users user = userRepository.findById(userId)
+		            .orElseThrow(() -> new RuntimeException("User not found"));
+
+	
+
+		    boolean matches = passwordEncoder.matches(currentPassword, user.getPassword());
+		    
+
+		    if (!matches) {
+		        throw new RuntimeException("Current password is incorrect");
+		    }
+
+		    user.setPassword(passwordEncoder.encode(newPassword));
+
+		    userRepository.saveAndFlush(user);
+
 		
 	}
 	
